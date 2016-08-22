@@ -1,0 +1,25 @@
+Aug 17, 2016 5:58:53 PM oracle.mds
+NOTIFICATION: PManager instance is created without multitenancy support as JVM flag "oracle.multitenant.enabled" is not set to enable multitenancy support.
+Aug 17, 2016 5:58:53 PM oracle.security.jps.internal.config.xml.XmlConfigurationFactory initDefaultConfiguration
+SEVERE: java.io.FileNotFoundException: .\config\jps-config.xml (The system cannot find the path specified)
+Aug 17, 2016 5:58:53 PM oracle.mds
+NOTIFICATION: Auditing is disabled for component MDS.
+Aug 17, 2016 5:58:58 PM oracle.fabric.common.wsdl.SchemaManager isIncrementalBuildSupported
+INFO: XMLSchema incremental build enabled.
+Aug 17, 2016 5:58:58 PM com.collaxa.cube.CubeLogger info
+INFO: validating "BPELAuthToken.bpel" ...
+Aug 17, 2016 5:58:58 PM oracle.integration.platform.blocks.FabricConfigManager <clinit>
+WARNING: JRF is unable to determine the current application server platform.
+Aug 17, 2016 5:58:58 PM oracle.integration.platform.blocks.WLSPlatformConfigurationProvider <clinit>
+WARNING: JRF is unable to determine the current application server platform.
+Aug 17, 2016 5:58:58 PM com.collaxa.cube.CubeLogger info
+INFO: Composed "BPELAuthToken" in 33.5 milliseconds [nodes 7=0+7, 209.1 nodes/sec]
+Aug 17, 2016 5:59:01 PM com.collaxa.cube.CubeLogger info
+INFO: Compiled "BPELAuthToken" in 3.029 seconds
+Aug 17, 2016 5:59:01 PM com.collaxa.cube.CubeLogger info
+INFO: Gathered 3 files in 1.1 milliseconds
+
+Aug 17, 2016 5:59:01 PM com.collaxa.cube.CubeLogger info
+INFO: Packaged "BPELAuthToken" in 6.6 milliseconds
+
+Picked up _JAVA_OPTIONS: -Xmx512M

@@ -1,0 +1,13 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Faults>
+   <Fault>
+      <severity>warning</severity>
+      <loc>/ns:composite/ns:reference[@name='AuthToken']</loc>
+      <line>28</line>
+      <col>64</col>
+      <file>C:\JDeveloper\11g\mywork\SOACmxIntApp\SOAGraphAPIPrj\composite.xml</file>
+      <name>C:\JDeveloper\11g\mywork\SOACmxIntApp\SOAGraphAPIPrj\composite.xml</name>
+      <fix/>
+      <msg>Failed to Find Binding "AuthToken":"{http://xmlns.oracle.com/pcbpel/adapter/http/SOACmxIntApp/SOAGraphAPIPrj/AuthToken}Request_Response_pt" in WSDL Manager</msg>
+   </Fault>
+</Faults>

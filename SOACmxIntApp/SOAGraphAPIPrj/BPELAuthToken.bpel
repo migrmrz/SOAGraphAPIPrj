@@ -1,0 +1,118 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Jul 27 16:37:18 CDT 2016
+  Author:  mramirez
+  Type: BPEL 1.1 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPELAuthToken"
+               targetNamespace="http://xmlns.oracle.com/SOACmxIntApp/SOAGraphAPIPrj/BPELAuthToken"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.oracle.com/SOACmxIntApp/SOAGraphAPIPrj/BPELAuthToken"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/http/SOACmxIntApp/SOAGraphAPIPrj/AuthToken"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns2="http://www.spsolutions.com.mx/demo/graphapi/schemas/token">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="bpelauthtoken_client" partnerLinkType="client:BPELAuthToken" myRole="BPELAuthTokenProvider"/>
+    <partnerLink name="AuthToken" partnerLinkType="ns1:Request_Response_plt"
+                 partnerRole="Request-Response_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:BPELAuthTokenRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:BPELAuthTokenResponseMessage"/>
+    <variable name="AuthTokenInvoke_Request-Response_InputVariable"
+              messageType="ns1:authTokenRequest_msg_in"/>
+    <variable name="AuthTokenInvoke_Request-Response_OutputVariable"
+              messageType="ns1:authTokenResponse_msg_out"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPELAuthToken.wsdl) -->
+    <receive name="receiveInput" partnerLink="bpelauthtoken_client" portType="client:BPELAuthToken" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="AssignAuthTokenVars">
+      <copy>
+        <from variable="inputVariable" part="payload"
+              query="/ns2:authTokenRequest/ns2:grant_type"/>
+        <to variable="AuthTokenInvoke_Request-Response_InputVariable"
+            part="authTokenRequest"
+            query="/ns2:authTokenRequest/ns2:grant_type"/>
+      </copy>
+      <copy>
+        <from variable="inputVariable" part="payload"
+              query="/ns2:authTokenRequest/ns2:redirect_uri"/>
+        <to variable="AuthTokenInvoke_Request-Response_InputVariable"
+            part="authTokenRequest"
+            query="/ns2:authTokenRequest/ns2:redirect_uri"/>
+      </copy>
+      <copy>
+        <from variable="inputVariable" part="payload"
+              query="/ns2:authTokenRequest/ns2:client_id"/>
+        <to variable="AuthTokenInvoke_Request-Response_InputVariable"
+            part="authTokenRequest"
+            query="/ns2:authTokenRequest/ns2:client_id"/>
+      </copy>
+      <copy>
+        <from variable="inputVariable" part="payload"
+              query="/ns2:authTokenRequest/ns2:resource"/>
+        <to variable="AuthTokenInvoke_Request-Response_InputVariable"
+            part="authTokenRequest" query="/ns2:authTokenRequest/ns2:resource"/>
+      </copy>
+      <copy>
+        <from variable="inputVariable" part="payload"
+              query="/ns2:authTokenRequest/ns2:username"/>
+        <to variable="AuthTokenInvoke_Request-Response_InputVariable"
+            part="authTokenRequest" query="/ns2:authTokenRequest/ns2:username"/>
+      </copy>
+      <copy>
+        <from variable="inputVariable" part="payload"
+              query="/ns2:authTokenRequest/ns2:password"/>
+        <to variable="AuthTokenInvoke_Request-Response_InputVariable"
+            part="authTokenRequest" query="/ns2:authTokenRequest/ns2:password"/>
+      </copy>
+    </assign>
+    <invoke name="AuthTokenInvoke" bpelx:invokeAsDetail="no"
+            inputVariable="AuthTokenInvoke_Request-Response_InputVariable"
+            outputVariable="AuthTokenInvoke_Request-Response_OutputVariable"
+            partnerLink="AuthToken" portType="ns1:Request_Response_ptt"
+            operation="Request-Response"/>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="bpelauthtoken_client" portType="client:BPELAuthToken" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

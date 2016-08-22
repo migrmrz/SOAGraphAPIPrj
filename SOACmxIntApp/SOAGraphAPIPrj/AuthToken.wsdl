@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+     name="AuthToken"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/http/SOACmxIntApp/SOAGraphAPIPrj/AuthToken"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/http/SOACmxIntApp/SOAGraphAPIPrj/AuthToken"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:msg_in_out="http://www.spsolutions.com.mx/demo/graphapi/schemas/token"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+    >
+    <plt:partnerLinkType name="Request_Response_plt">
+        <plt:role name="Request-Response_role">
+            <plt:portType name="tns:Request_Response_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://www.spsolutions.com.mx/demo/graphapi/schemas/token" schemaLocation="xsd/AuthToken.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="authTokenRequest_msg_in">
+        <wsdl:part name="authTokenRequest" element="msg_in_out:authTokenRequest"/>
+    </wsdl:message>
+    <wsdl:message name="authTokenResponse_msg_out">
+        <wsdl:part name="authTokenResponse" element="msg_in_out:authTokenResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="Request_Response_ptt">
+        <wsdl:operation name="Request-Response">
+            <wsdl:input message="tns:authTokenRequest_msg_in"/>
+            <wsdl:output message="tns:authTokenResponse_msg_out"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
